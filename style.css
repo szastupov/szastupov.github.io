@@ -45,6 +45,7 @@
 body {
 	background-color: #CCCCCC;
 	font-family: sans-serif;
+	color: #424242;
 }
 
 .about {
@@ -59,12 +60,12 @@ body {
 
 .about a {
 	display: block;
-	margin: 0.5em;
+	margin-top: 0.5em;
 	color: #424242;
 }
 
 .about span {
-	padding-left: 5px;
+	padding-left: 6px;
 }
 
 .about a:link {
