@@ -23,9 +23,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-vk:before {
-	content: "\e600";
-}
 .icon-mail:before {
 	content: "\e945";
 }
@@ -39,7 +36,7 @@
 	content: "\eac4";
 }
 .icon-linkedin:before {
-	content: "\eac9";
+	content: "\eac8";
 }
 
 body {
