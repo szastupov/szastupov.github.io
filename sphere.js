@@ -1,5 +1,11 @@
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
+var distort = false;
+
+canvas.addEventListener("mouseenter", function () { distort = true });
+canvas.addEventListener("mouseleave", function () { distort = false });
+canvas.addEventListener("touchstart", function () { distort = true });
+canvas.addEventListener("touchend", function () { distort = false });
 
 function rotateZ(v, r) {
     var x = v[0];
@@ -18,16 +24,6 @@ function rotateY(v, r) {
     var rz = x * -Math.sin(r) + z*Math.cos(r);
     return [rx, y, z];
 }
-
-var distort = false;
-
-canvas.addEventListener("mouseenter", function () {
-  distort = true;
-});
-
-canvas.addEventListener("mouseleave", function () {
-  distort = false;
-});
 
 function drawSpheres(now) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
