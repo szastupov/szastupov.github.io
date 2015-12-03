@@ -50,12 +50,12 @@ body {
 
 .about {
 	position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  font-size: x-large;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	font-size: x-large;
 }
 
 .about a {
@@ -73,6 +73,18 @@ body {
 
 .about a:hover {
 	color: #000000;
+}
+
+canvas {
+	display: block;
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	font-size: x-large;
+	z-index: -1;
 }
 
 span[data-tooltip]:hover {
