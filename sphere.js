@@ -25,7 +25,7 @@ function drawSpheres(now) {
     ctx.fillStyle = "#424242";
 
     var npoints = 50;
-    var radius = 145;
+    var radius = 100;
 
     var pspeed = now / 100;
     var n = Math.abs(Math.cos(pspeed/2)*2) * npoints;
