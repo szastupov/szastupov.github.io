@@ -19,16 +19,25 @@ function rotateY(v, r) {
     return [rx, y, z];
 }
 
+var distort = false;
+
+canvas.addEventListener("mouseenter", function () {
+  distort = true;
+});
+
+canvas.addEventListener("mouseleave", function () {
+  distort = false;
+});
+
 function drawSpheres(now) {
-    ctx.fillStyle = "#CCCCCC";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#424242";
 
     var npoints = 50;
     var radius = 100;
 
-    var pspeed = now / 100;
-    var n = Math.abs(Math.cos(pspeed/2)*2) * npoints;
+    var pspeed = now / 1000;
+    var n = distort ? Math.abs(Math.cos(pspeed/2)*2) * npoints : npoints;
     var t = Math.min(now / 10000, 1);
     var r = t*t*t * radius;
 
