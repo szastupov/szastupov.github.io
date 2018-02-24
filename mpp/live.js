@@ -15,6 +15,10 @@ renderer.setClearColor(0x110011, 1)
 // Scene
 const scene = new THREE.Scene()
 
+// Constants
+const LINE_COUNT = 100
+const CAMERA_Y = 8
+
 // Camera
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -22,28 +26,26 @@ const camera = new THREE.PerspectiveCamera(
   1,
   500
 )
-camera.position.set(0, 8, 100)
+camera.position.set(0, CAMERA_Y, 100)
 camera.lookAt(new THREE.Vector3(0, 0, 0))
-
-const COUNT = 100
 
 // Analyzer and fft buffers
 const analyser = audioCtx.createAnalyser()
 analyser.fftSize = 256
 const bufferLength = analyser.frequencyBinCount
 const dataArrays = []
-for (let i = 0; i < COUNT; i++) {
+for (let i = 0; i < LINE_COUNT; i++) {
   dataArrays.push(new Uint8Array(bufferLength))
 }
 
 // Geometry
-const lines = initLines()
+const lines = []
 
 function draw() {
   dataArrays.unshift(dataArrays.pop())
   analyser.getByteFrequencyData(dataArrays[0])
 
-  for (let i = 0; i < dataArrays.length; i++) {
+  for (let i = 0; i < LINE_COUNT; i++) {
     const dataArray = dataArrays[i]
     const z = i
     const line = lines[i]
@@ -68,6 +70,8 @@ function draw() {
 }
 
 function init() {
+  loadTextures()
+
   fetch("test.m4a")
     .then(resp => resp.arrayBuffer())
     .then(src => audioCtx.decodeAudioData(src))
@@ -78,15 +82,14 @@ function init() {
       source.start()
     })
 
-  loadTextures()
+  initLines()
   draw()
 }
 
 function initLines() {
   const material = new THREE.LineBasicMaterial({ color: 0xd854c2 })
-  const lines = []
 
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < LINE_COUNT; i++) {
     const geometry = new THREE.Geometry()
     for (let j = 0; j < bufferLength; j++) {
       geometry.vertices.push(new THREE.Vector3(0, 0, 0))
@@ -95,8 +98,6 @@ function initLines() {
     lines.push(line)
     scene.add(line)
   }
-
-  return lines
 }
 
 function loadTextures() {
@@ -111,7 +112,7 @@ function loadTextures() {
     map: sunTexture
   })
   const sunSprite = new THREE.Sprite(sunMaterial)
-  sunSprite.position.set(0, 8, -1)
+  sunSprite.position.set(0, CAMERA_Y, -1)
   sunSprite.scale.set(30, 30, 1)
   scene.add(sunSprite)
 }
