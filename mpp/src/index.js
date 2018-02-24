@@ -1,4 +1,5 @@
 // THIS IS WORK IN PROGRESS AND LOOKS UGLY AS FUCK
+const THREE = require("three")
 
 const audioCtx = new AudioContext()
 
