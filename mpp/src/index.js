@@ -39,7 +39,7 @@ for (let i = 0; i < LINE_COUNT; i++) {
 }
 
 // Geometry
-const lines = []
+let lines
 
 function draw() {
   dataArrays.unshift(dataArrays.pop())
@@ -70,7 +70,8 @@ function draw() {
 }
 
 function init() {
-  loadTextures()
+  loadTextures(scene)
+  lines = initLines(scene, bufferLength)
 
   fetch("test.m4a")
     .then(resp => resp.arrayBuffer())
@@ -82,12 +83,12 @@ function init() {
       source.start()
     })
 
-  initLines()
   draw()
 }
 
-function initLines() {
+function initLines(scene, bufferLength) {
   const material = new THREE.LineBasicMaterial({ color: 0xd854c2 })
+  const lines = []
 
   for (let i = 0; i < LINE_COUNT; i++) {
     const geometry = new THREE.Geometry()
@@ -98,9 +99,11 @@ function initLines() {
     lines.push(line)
     scene.add(line)
   }
+
+  return lines
 }
 
-function loadTextures() {
+function loadTextures(scene) {
   // Stars
   const starsTexture = new THREE.TextureLoader().load("stars.png")
   starsTexture.premultiplyAlpha = true
