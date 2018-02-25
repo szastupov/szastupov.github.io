@@ -1,19 +1,23 @@
 // THIS IS WORK IN PROGRESS AND LOOKS UGLY AS FUCK
 
-import "@mohayonao/web-audio-api-shim"
+import "@mohayonao/web-audio-api-shim/light"
 import * as THREE from "three"
 
-const debugNode = document.querySelector("#debug")
 const audioCtx = new AudioContext()
-
-function debug(...args) {
-  debugNode.textContent = args.join(" ")
-}
 
 // Canvas
 const canvas = document.querySelector("canvas")
 canvas.width = canvas.offsetWidth
 canvas.height = canvas.offsetHeight
+
+canvas.onclick = () => {
+  console.log(audioCtx.state)
+  if (audioCtx.state === "running") {
+    audioCtx.suspend()
+  } else {
+    audioCtx.resume()
+  }
+}
 
 const width = canvas.width
 const height = width / 2
@@ -135,9 +139,5 @@ function init() {
       source.start()
     })
 }
-
-// Buttons
-document.getElementById("play").onclick = () => audioCtx.resume()
-document.getElementById("pause").onclick = () => audioCtx.suspend()
 
 init()
