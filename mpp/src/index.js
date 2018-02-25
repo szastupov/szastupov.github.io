@@ -7,8 +7,6 @@ const audioCtx = new AudioContext()
 
 // Canvas
 const canvas = document.querySelector("canvas")
-canvas.width = canvas.offsetWidth
-canvas.height = canvas.offsetHeight
 
 canvas.onclick = () => {
   console.log(audioCtx.state)
@@ -18,9 +16,6 @@ canvas.onclick = () => {
     audioCtx.resume()
   }
 }
-
-const width = canvas.width
-const height = width / 2
 
 // Constants
 const LINE_COUNT = 110
@@ -36,14 +31,30 @@ for (let i = 0; i < LINE_COUNT; i++) {
 }
 
 // Renderer
-const ratio = width / height
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
-renderer.setViewport(0, (canvas.height - height) / 2, width, height)
+
 // Camera
-const camera = new THREE.PerspectiveCamera(45, ratio, 1, 500)
+const camera = new THREE.PerspectiveCamera(45, 1 / 2, 1, 500)
 camera.position.set(0, CAMERA_Y, 100)
 camera.lookAt(new THREE.Vector3(0, 0, -1))
 let sunSprite
+
+function setSize() {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const width = canvas.width
+  const height = width / 2
+  const ratio = width / height
+
+  renderer.setSize(canvas.width, canvas.height)
+  renderer.setViewport(0, (canvas.height - height) / 2, width, height)
+  camera.aspect = ratio
+  camera.updateProjectionMatrix()
+}
+
+window.onresize = setSize
+setSize()
 
 // Scene
 function initLines(scene, bufferLength) {
