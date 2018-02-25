@@ -1,4 +1,6 @@
 // THIS IS WORK IN PROGRESS AND LOOKS UGLY AS FUCK
+
+import "@mohayonao/web-audio-api-shim"
 import * as THREE from "three"
 
 const debugNode = document.querySelector("#debug")
@@ -128,7 +130,8 @@ function init() {
     .then(buffer => {
       const source = audioCtx.createBufferSource()
       source.buffer = buffer
-      source.connect(analyser).connect(audioCtx.destination)
+      source.connect(analyser)
+      analyser.connect(audioCtx.destination)
       source.start()
     })
 }
