@@ -8,10 +8,8 @@ const canvas = document.querySelector("canvas")
 canvas.width = canvas.offsetWidth
 canvas.height = canvas.offsetHeight
 
-// Renderer
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
-renderer.setSize(canvas.width, canvas.height)
-renderer.setClearColor(0x110011, 1)
+const width = canvas.width
+const height = width / 2
 
 // Constants
 const LINE_COUNT = 100
@@ -26,13 +24,12 @@ for (let i = 0; i < LINE_COUNT; i++) {
   dataArrays.push(new Uint8Array(bufferLength))
 }
 
+// Renderer
+const ratio = width / height
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
+renderer.setViewport(0, (canvas.height - height) / 2, width, height)
 // Camera
-const camera = new THREE.PerspectiveCamera(
-  45,
-  canvas.width / canvas.height,
-  1,
-  500
-)
+const camera = new THREE.PerspectiveCamera(45, ratio, 1, 500)
 camera.position.set(0, CAMERA_Y, 100)
 camera.lookAt(new THREE.Vector3(0, 0, 0))
 
