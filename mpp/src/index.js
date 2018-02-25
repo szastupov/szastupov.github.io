@@ -1,7 +1,12 @@
 // THIS IS WORK IN PROGRESS AND LOOKS UGLY AS FUCK
 import * as THREE from "three"
 
+const debugNode = document.querySelector("#debug")
 const audioCtx = new AudioContext()
+
+function debug(...args) {
+  debugNode.textContent = args.join(" ")
+}
 
 // Canvas
 const canvas = document.querySelector("canvas")
@@ -12,7 +17,7 @@ const width = canvas.width
 const height = width / 2
 
 // Constants
-const LINE_COUNT = 100
+const LINE_COUNT = 110
 const CAMERA_Y = 8
 
 // Analyzer and fft buffers
@@ -31,7 +36,8 @@ renderer.setViewport(0, (canvas.height - height) / 2, width, height)
 // Camera
 const camera = new THREE.PerspectiveCamera(45, ratio, 1, 500)
 camera.position.set(0, CAMERA_Y, 100)
-camera.lookAt(new THREE.Vector3(0, 0, 0))
+camera.lookAt(new THREE.Vector3(0, 0, -1))
+let sunSprite
 
 // Scene
 function initLines(scene, bufferLength) {
@@ -43,6 +49,7 @@ function initLines(scene, bufferLength) {
     for (let j = 0; j < bufferLength; j++) {
       geometry.vertices.push(new THREE.Vector3(0, 0, 0))
     }
+    geometry.vertices.push(new THREE.Vector3(0, 0, 0))
     const line = new THREE.Line(geometry, material)
     lines.push(line)
     scene.add(line)
@@ -62,22 +69,31 @@ function loadTextures(scene) {
   const sunMaterial = new THREE.SpriteMaterial({
     map: sunTexture
   })
-  const sunSprite = new THREE.Sprite(sunMaterial)
-  sunSprite.position.set(0, CAMERA_Y, -1)
-  sunSprite.scale.set(30, 30, 1)
+  sunSprite = new THREE.Sprite(sunMaterial)
+  sunSprite.scale.set(40, 40, 1)
   scene.add(sunSprite)
 }
 
 // Geometry
 let lines
+let soundAvg = 0
+const weight = 1 / 512
 
 function render(scene) {
   dataArrays.unshift(dataArrays.pop())
   analyser.getByteFrequencyData(dataArrays[0])
 
+  const avg = dataArrays[0].reduce((sum, v) => sum + v, 0)
+  soundAvg = weight * avg + (1 - weight) * soundAvg
+  const factor = soundAvg / 1000
+  // debug(factor)
+
+  camera.position.set(0, CAMERA_Y + factor * 2, 100)
+  sunSprite.position.set(0, CAMERA_Y + 1.5 + factor / 2, -20)
+
   for (let i = 0; i < LINE_COUNT; i++) {
     const dataArray = dataArrays[i]
-    const z = i
+    const z = i - 30
     const line = lines[i]
 
     const xoff = 60
@@ -90,6 +106,7 @@ function render(scene) {
       const yn = dataArray[j] / 256
       geometry.vertices[j].set(xn * width - xoff, yn * height, z)
     }
+    geometry.vertices[bufferLength].set(width, 0, z)
 
     geometry.verticesNeedUpdate = true
   }
