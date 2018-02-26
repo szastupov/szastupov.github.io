@@ -1,4 +1,4 @@
-const audioCtx = new AudioContext()
+export const audioCtx = new AudioContext()
 
 export function toggle() {
   if (audioCtx.state === "running") {

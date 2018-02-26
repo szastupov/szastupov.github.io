@@ -1,11 +1,8 @@
 import * as THREE from "three"
 import { toggle } from "./audio"
+import * as screenfull from "screenfull"
 
 const CAMERA_Y = 8
-
-// Canvas
-const canvas = document.querySelector("canvas")
-canvas.onclick = toggle
 
 // View
 const view = {
@@ -13,7 +10,7 @@ const view = {
   sprites: {},
 
   camera: new THREE.PerspectiveCamera(45, 1 / 2, 1, 500),
-  renderer: new THREE.WebGLRenderer({ canvas, antialias: true }),
+  renderer: new THREE.WebGLRenderer({ antialias: true }),
   scene: new THREE.Scene(),
 
   init() {
@@ -35,15 +32,12 @@ const view = {
   setSize() {
     const { renderer, camera } = this
 
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-
-    const width = canvas.width
+    const width = window.innerWidth
     const height = width / 2
     const ratio = width / height
 
-    renderer.setSize(canvas.width, canvas.height)
-    renderer.setViewport(0, (canvas.height - height) / 2, width, height)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setViewport(0, (window.innerHeight - height) / 2, width, height)
 
     camera.aspect = ratio
     camera.updateProjectionMatrix()
@@ -56,9 +50,12 @@ const view = {
 
   loadTextures() {
     const { scene, sprites } = this
+
     // Stars
     const starsTexture = new THREE.TextureLoader().load("stars.png")
     starsTexture.premultiplyAlpha = true
+    starsTexture.wrapS = THREE.MirroredRepeatWrapping
+    starsTexture.wrapT = THREE.MirroredRepeatWrapping
     scene.background = starsTexture
 
     // Sun
@@ -71,5 +68,19 @@ const view = {
     scene.add(sprites.sun)
   }
 }
+
+document.body.onclick = toggle
+document.onkeypress = ev => {
+  switch (ev.key) {
+    case "m":
+      return toggle()
+    case "f": {
+      if (screenfull.enabled) {
+        screenfull.toggle()
+      }
+    }
+  }
+}
+document.body.appendChild(view.renderer.domElement)
 
 export default view

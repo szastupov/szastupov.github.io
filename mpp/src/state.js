@@ -1,9 +1,12 @@
+import { audioCtx } from "./audio"
+
 const SMOOTHING = 1 / 512
 
 // State
 const state = {
   soundAvg: 0,
   fftBuffers: [],
+  skyRotation: 0,
 
   init(linesCount, bufferLength) {
     for (let i = 0; i < linesCount; i++) {
@@ -22,6 +25,9 @@ const state = {
     const frame = fftBuffers[0]
     analyser.getByteFrequencyData(frame)
     this.updateAvg(frame)
+
+    const skyRotationSpeed = 0.0005
+    this.skyRotation = audioCtx.currentTime * skyRotationSpeed
   }
 }
 

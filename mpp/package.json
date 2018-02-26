@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@mohayonao/web-audio-api-shim": "^0.3.0",
+    "screenfull": "^3.3.2",
     "three": "^0.90.0"
   },
   "private": true,

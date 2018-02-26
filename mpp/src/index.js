@@ -19,6 +19,8 @@ function render() {
   state.update(analyser)
   view.updateCamera(state.soundAvg / 1000)
 
+  view.scene.background.rotation = state.skyRotation
+
   for (let i = 0; i < LINE_COUNT; i++) {
     const fft = state.fftBuffers[i]
     const z = i - 30
