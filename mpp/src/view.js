@@ -69,7 +69,8 @@ const view = {
   }
 }
 
-document.body.onclick = toggle
+document.body.addEventListener("touchstart", toggle)
+
 document.onkeypress = ev => {
   switch (ev.key) {
     case "m":
