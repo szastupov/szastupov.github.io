@@ -2,7 +2,7 @@
 
 import "@mohayonao/web-audio-api-shim/light"
 import * as THREE from "three"
-import { loadTrack, bufferLength, analyser } from "./audio"
+import { loadTrack, bufferLength, analyser, source } from "./audio"
 import state from "./state"
 import view from "./view"
 
@@ -14,6 +14,9 @@ state.init(LINE_COUNT, bufferLength)
 view.init()
 initLines()
 requestAnimationFrame(render)
+
+source.onended = () =>
+  document.getElementById("credits").classList.toggle("hidden")
 
 function render() {
   state.update(analyser)

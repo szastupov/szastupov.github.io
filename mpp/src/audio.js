@@ -8,6 +8,7 @@ export function toggle() {
   }
 }
 
+export const source = audioCtx.createBufferSource()
 // Analyzer and fft buffers
 export const analyser = audioCtx.createAnalyser()
 analyser.fftSize = 256
@@ -18,7 +19,6 @@ export function loadTrack() {
     .then(resp => resp.arrayBuffer())
     .then(src => audioCtx.decodeAudioData(src))
     .then(buffer => {
-      const source = audioCtx.createBufferSource()
       source.buffer = buffer
       source.connect(analyser)
       analyser.connect(audioCtx.destination)
