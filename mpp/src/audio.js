@@ -23,5 +23,10 @@ export function loadTrack() {
       source.connect(analyser)
       analyser.connect(audioCtx.destination)
       source.start()
+      const appearOn = Math.round((buffer.duration - 10) * 1000)
+      setInterval(
+        () => document.getElementById("credits").classList.remove("hidden"),
+        appearOn
+      )
     })
 }
