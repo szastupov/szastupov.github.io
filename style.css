@@ -1,7 +1,7 @@
 body {
-  background-color: #cccccc;
+  background-color: #414141;
   font-family: sans-serif;
-  color: #424242;
+  color: #cec2b3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,7 +19,7 @@ body {
 }
 
 .about a {
-  color: #424242;
+  color: #cec2b3;
 }
 
 .about a:link {
@@ -27,7 +27,7 @@ body {
 }
 
 .about a:hover {
-  color: #000000;
+  color: #141414;
 }
 
 canvas {
