@@ -27,13 +27,12 @@ function rotateY(v, r) {
 
 function drawSpheres(now) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#424242";
+    ctx.fillStyle = "#cec2b3";
 
     var npoints = 50;
     var radius = 100;
 
-    var pspeed = now / 1000;
-    var n = distort ? Math.abs(Math.cos(pspeed/2)*2) * npoints : npoints;
+    var n = npoints;
     var t = Math.min(now / 10000, 1);
     var r = t*t*t * radius;
 
