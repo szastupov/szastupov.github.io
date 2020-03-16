@@ -22,10 +22,6 @@ body {
   color: #cec2b3;
 }
 
-.about a:link {
-  text-decoration: none;
-}
-
 .about a:hover {
   color: #141414;
 }
